@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_06_095823) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_06_102628) do
   create_table "posts", force: :cascade do |t|
     t.string "file"
     t.datetime "created_at", null: false
@@ -24,12 +24,19 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_06_095823) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tag_names", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tags", force: :cascade do |t|
-    t.string "tagging"
     t.string "taggable_type", null: false
     t.integer "taggable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tag_name_id"
+    t.index ["tag_name_id"], name: "index_tags_on_tag_name_id"
     t.index ["taggable_type", "taggable_id"], name: "index_tags_on_taggable"
   end
 
@@ -39,4 +46,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_06_095823) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "tags", "tag_names"
 end
